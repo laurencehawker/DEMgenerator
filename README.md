@@ -40,18 +40,7 @@ Next load a DEM. For this example, we will use the MERIT DEM for Ba, Fiji which 
 library(rasterVis)
 
 #Load MERIT DEM for Ba
-data("Ba_MERIT")
-
-#Show raster details of Ba
-Ba_MERIT
-#> class       : RasterLayer 
-#> dimensions  : 138, 79, 10902  (nrow, ncol, ncell)
-#> resolution  : 0.0008333334, 0.0008333334  (x, y)
-#> extent      : 177.6388, 177.7046, -17.55708, -17.44208  (xmin, xmax, ymin, ymax)
-#> coord. ref. : +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
-#> data source : C:\Users\lh14461\PhD\DEM Work\DEMsimulation\data-raw\Ba_MERIT_Z.tif 
-#> names       : Ba_MERIT_Z 
-#> values      : -3.155631, 297.4111  (min, max)
+Ba_MERIT <- raster('data-raw/Ba_MERIT_Z.tif')
 
 #Plot Ba DEM
 levelplot(Ba_MERIT,margin=FALSE,main='Ba MERIT DEM')
@@ -101,16 +90,7 @@ LC_Map
 
 ``` r
 #Or load Ba CCI map from DEMsimulation package
-data("Ba_CCI")
-Ba_CCI
-#> class       : RasterLayer 
-#> dimensions  : 138, 79, 10902  (nrow, ncol, ncell)
-#> resolution  : 0.0008333334, 0.0008333334  (x, y)
-#> extent      : 177.6388, 177.7046, -17.55708, -17.44208  (xmin, xmax, ymin, ymax)
-#> coord. ref. : +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
-#> data source : C:\Users\lh14461\PhD\DEM Work\DEMsimulation\data-raw\Ba_CCI.tif 
-#> names       : Ba_CCI 
-#> values      : 10, 210  (min, max)
+Ba_CCI <- raster('data-raw/Ba_CCI.tif')
 
 #Plot
 library(rasterVis)
@@ -131,8 +111,8 @@ levelplot(CCIf, col.regions=rev(brewer.pal(nrow(rat),'Set3')), xlab="", ylab=""
 ``` r
 #Alternatively load from local disk and resample
 LC_Map_local <-raster('ESA_Landcover_Map.tif') #Load CCI Landcover Map from local computer.Edit filename as required
-ex<- raster::extent(Ba_MERIT) #Extent of DEM
-LC_Map_local <- raster::crop(LC_Map_local,ex) #Crop CCI Landcover Map
+ex <- raster::extent(Ba_MERIT) #Extent of DEM
+lcmap_rascrop <- raster::crop(LC_Map_local,ex) #Crop CCI Landcover Map
 CCI <-raster::resample(lcmap_rascrop,targetDEM,method='ngb') #Resample to DEM resolution
 ```
 
